@@ -39,6 +39,7 @@
             echo "</table>";
         }
     }
+    
     function displayCartCount(){
         echo count($_SESSION['cart']);
     }
@@ -64,6 +65,8 @@
                 echo "<input type='hidden' name='itemId' value='$itemId'>";
                 echo "<td><input type= 'text' name='update' class= 'form-control' placeHolder='$itemQuant'></td>";
                 echo "<td><button class= 'btn btn-danger'>Update</button></td>";
+                echo "<input type = 'hidden' name = 'removeId' value = '$itemId'>";
+            echo "<td><button class = 'btn btn-danger'> Remove </button> </td>";
                 echo "</form>";
                 echo "</tr>";
             }

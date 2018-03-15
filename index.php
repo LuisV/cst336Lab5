@@ -1,34 +1,45 @@
-<?php
+<?php 
+    include 'functions.php';
+    session_start();
+                
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = array();
+    }
+            
+    if (isset($_POST['itemName'])) {
+        // $_SESSION['cart'] = $_POST['itemName'];
+        $newItem = array();
+        $newItem['name'] = $_POST['itemName'];
+        $newItem['id'] = $_POST['itemId'];
+        $newItem['price'] = $_POST['itemPrice'];
+        $newItem['image'] = $_POST['itemImage'];
+                    
+        // Storing the item in the cart array
+        // array_push($_SESSION['cart'], $_POST['itemName']);
+        array_push($_SESSION['cart'], $newItem);
+                
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($newItem['id'] == $item['id']) {
+                $item['quantity'] += 1;
+                $found = true;
+            }
+        }
 
-session_start();
-
-if(!isset($_SESSION['cart'])){
-    $_SESSION['cart']=array();
-}
-if(isset($_POST['itemName'])){
-    $newItem=array();
-    $newItem['name'] = $_POST['itemName'];
-    $newItem['id'] = $_POST['itemId'];
-    $newItem['price'] = $_POST['itemPrice'];
-    $newItem['image'] = $_POST['itemImage'];
-    
-    foreach($_SESSION['cart'] as &$item) {
-        if($newItem['id'] == $item['id']){
-            $item['quantity'] += 1;
-            $found = true;
+        // else add it to the array
+        if ($found != true) {
+            $newItem['quantity'] = 1;
+            array_push($_SESSION['cart'], $newItem);
         }
     }
-    if($found != true){
-        $newItem['quantity'] =1;
-        array_push($_SESSION['cart'], $newItem);
-    }
-}
-include 'functions.php';
-    if(isset($_GET['query'])){
+ 
+    // include 'functions.php';
+    // checks to see if the form was submitted
+    if (isset($_GET['query'])) {
         include 'wmapi.php';
         $items = getProducts($_GET['query']);
     }
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -52,8 +63,8 @@ include 'functions.php';
                     </div>
                     <ul class='nav navbar-nav'>
                         <li><a href='index.php'>Home</a></li>
-                        <li><a href='scart.php'>Cart</a></li>
-                        <span class = 'glyphicon glyphicon-shopping-cart' aria-hidden='true' >
+                        <li><a href = 'scart.php'>
+                        <span class = 'glyphicon glyphicon-shopping-cart' aria-hidden = 'true'>
                         </span> Cart: <?php displayCartCount(); ?> </a></li>
                     </ul>
                 </div>
@@ -69,8 +80,8 @@ include 'functions.php';
                 <input type="submit" value="Submit" class="btn btn-default">
                 <br /><br />
             </form>
-            
-            <!-- Display Search Results -->
+        
+            <!-- Display Search Results-->
             <?php displayResults(); ?>
             
         </div>
