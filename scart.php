@@ -3,6 +3,7 @@
         include 'functions.php';
         
         if (isset($_POST['removeId'])) {
+            //echo"???";
         foreach ($_SESSION['cart'] as $itemKey => $item) {
             if ($item['id'] == $_POST['removeId']) {
                 unset($_SESSION['cart'][$itemKey]);
@@ -10,7 +11,9 @@
         }
     }
 
-        if(isset($_POST['itemId'])){
+//MAKE SURE QUANTITY IS SET TO AN ACTUAL NUMBER
+        if(isset($_POST['itemId']) && !empty($_POST['update'])){
+            //echo "!!!";
             foreach ($_SESSION['cart'] as &$item) {
                 {
                     if($item['id'] == $_POST['itemId']) {
@@ -19,6 +22,7 @@
                    
             }
         }
+       
     }
     
 ?>

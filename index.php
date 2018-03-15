@@ -16,7 +16,7 @@
                     
         // Storing the item in the cart array
         // array_push($_SESSION['cart'], $_POST['itemName']);
-        array_push($_SESSION['cart'], $newItem);
+        //array_push($_SESSION['cart'], $newItem);
                 
         foreach ($_SESSION['cart'] as &$item) {
             if ($newItem['id'] == $item['id']) {
